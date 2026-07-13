@@ -1,14 +1,14 @@
 Note: Synatx for few are referred from offical documentation https://openrouter.ai/docs/api/reference/overview
 ## Environment Variables
 
-Create a `.env` file in the project root containing:
+Create a .env file in the project root containing:
 
 
 OPENROUTER_API_KEY=your_api_key_here
 
 
-The notebook loads the API key using the `python-dotenv` package.
-Temperature was set to 0 because structured JSON extraction requires consistent and predictable outputs. At temperature 0, the model selects the highest-probability next token, reducing randomness and improving reproducibility. A temperature of 0.7 introduces more variability because the model samples from a broader probability distribution. In this experiment, both temperatures produced similar outputs because the prompt contained strict JSON formatting instructions and few-shot examples that constrained the model response.
+The notebook loads the API key using the python-dotenvv package.
+Temperature was set to 0 because structured JSON extraction requires consistent and predictable outputs. At temperature 0, the model selects the highest-probability next token, reducing randomness . temperature of 0.7 introduces more variability because the model samples from a broader probability distribution. In this experiment, both temperatures produced similar outputs it may dueto the prompt contained strict JSON formatting instructions and few-shot examples
 
 
 Task 3- Structured output :
@@ -93,4 +93,4 @@ None
 }
 
 
-The end-to-end pipeline was successfully executed on three AQI dataset records. All three inputs passed the PII guardrail because no personally identifiable information was detected. The LLM generated structured JSON outputs for all records, and each response successfully passed JSON parsing and schema validation. This demonstrates a complete workflow combining prompt engineering, structured output handling, and safety validation.
+end-to-end pipeline was successfully executed on three AQI dataset records. All three inputs passed the PII guardrail because no personally identifiable information was detected. The LLM generated structured JSON outputs for all records, and each response successfully passed JSON parsing and schema validation. This demonstrates a complete workflow combining prompt engineering, structured output handling, and safety validation. wile rerun caused lilttle erro beacuse json already parsed . mey be cleared wif we rerun all the ceels with help of API key .
