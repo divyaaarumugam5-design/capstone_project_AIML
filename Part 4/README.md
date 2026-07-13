@@ -1,5 +1,13 @@
 Note: Synatx for few are referred from offical documentation https://openrouter.ai/docs/api/reference/overview
+## Environment Variables
 
+Create a `.env` file in the project root containing:
+
+```text
+OPENROUTER_API_KEY=your_api_key_here
+```
+
+The notebook loads the API key using the `python-dotenv` package.
 Temperature was set to 0 because structured JSON extraction requires consistent and predictable outputs. At temperature 0, the model selects the highest-probability next token, reducing randomness and improving reproducibility. A temperature of 0.7 introduces more variability because the model samples from a broader probability distribution. In this experiment, both temperatures produced similar outputs because the prompt contained strict JSON formatting instructions and few-shot examples that constrained the model response.
 
 
