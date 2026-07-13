@@ -30,9 +30,9 @@ AQI data provides the prediction target and pollutant measurements.
 Weather data provides environmental variables such as temperature, wind speed, rainfall, and atmospheric pressure.
 ENSO data provides a large-scale climate indicator representing El Nino, La Nina, and Neutral conditions.
 
-Since these datasets originated from different sources, they were integrated using SQL joins based on common attributes such as date and location before importing the consolidated dataset into Python. SQL was used because it is well suited for relational data integration, while Python is used for data preprocessing, exploratory analysis, visualization, and machine learning.
+Since these datasets originated from different sources, they were integrated using SQL joins based on common attributes such as date and location before importing the consolidated dataset into Python. SQL was used because it is well suited for relational data integration,
 
-The resulting merged dataset contains approximately 27,000 records covered multiple Indian cities between 2015 and 2020., satisfying the assignment requirement of using a publicly available structured dataset with more than 500 observations.
+ merged dataset contains approximately 27,000 records covered multiple Indian cities between 2015 and 2020., satisfying the assignment requirement of using a publicly available structured dataset with more than 500 observations.
 Dataset Description. An initial data-quality assessment indicated that earlier periods contained substantially higher levels of missing values across several important variables. Instead of removing cities, which would reduce the geographical diversity and variability of the dataset, a quality-based date range with better data completeness was selected(2018 to 2020). This approach preserved observations from all cities while improving the overall quality of the dataset used for preprocessing and model development. All subsequent analyses in Part 1 were performed on this refined dataset.
 
 
@@ -61,11 +61,8 @@ Task 2 — Missing Value Analysis
 
 Missing value analysis was performed on the dataset to assess data quality before preprocessing. The analysis showed that air_pressure (28.51%) and rainfall (66.58%) exceed the 20% missing-value threshold, while AQI (4.06%), AQI_Bucket (4.06%), min_temp (2.87%), max_temp (6.09%), and wind_speed (11.48%) contain missing values below the threshold.
 
-The rainfall column contains more than two-thirds of its values as missing. Although rainfall is an important meteorological factor that may influence air quality, such a high proportion of missing values could reduce data reliability  model training. Therefore, the rainfall column was removed from the dataset.
-
-The air_pressure column also exceeds the 20% threshold.percentage of missing values is  lower and the feature is considered an important meteorological variable that may contribute to AQI prediction. Removing the column would result in the loss of  information.the missing values in air_pressure were imputed using the median to preserve the feature for subsequent analysis.
-
-For the remaining numeric feature columns (min_temp, max_temp, and wind_speed), missing values were also imputed using the **median**. The median was selected instead of the mean because it is more robust to outliers and skewed distributions.  mean, can be influenced by extreme values, the median provides a more representative measure of central tendency and helps produce more reliable imputations.
+ rainfall column contains more than two-thirds of its values as missing. Although rainfall is an important meteorological factor that may influence air quality, such a high proportion of missing values could reduce data reliability  model training. Therefore, the rainfall column was removed from the dataset.
+air_pressure column also exceeds the 20% threshold.percentage of missing values is  lower and the feature is considered an important meteorological variable that may contribute to AQI prediction. Removing the column would result in the loss of  information.the missing values in air_pressure were imputed using the median to preserve the feature for subsequent analysi remaining numeric feature columns (min_temp, max_temp, and wind_speed), missing values were also imputed using the **median**. The median was selected instead of the mean because it is more robust to outliers and skewed distributions.  mean, can be influenced by extreme values, the median provides a more representative measure of central tendency and helps produce more reliable imputations.
 
 AQI and AQI_Bucket columns represent the target variables for the regression and classification models, respectively. Since supervised machine learning requires valid target labels for training, records containing missing values in either of these target columns cannot be used for model development. Instead of imputing artificial target values, all rows with missing AQI or AQI_Bucket values were removed from the dataset to ensure the integrity of the training data.
 
@@ -107,8 +104,7 @@ Analysis was performed on:
 The AQI column contained a larger proportion of outliers, while Minimum Temperature contained comparatively fewer.
 outliers were not removed because extremely high AQI values may represent genuine pollution events rather than data entry errors. Removing them could reduce the model's ability to learn real-world pollution pattern
 
-Outliers in AQI case is valid in this dataset since the datast used environemnetal factors, values may represent actual high pollution events or seasonal weather conditions rather than data entry errors. Removing them at this stage could lead to the loss of valuable information
-outliers will be retained during Part 1. Their impact on model performance will be evaluated during Part 2, and if required, suitable techniques such as capping or robust preprocessing methods will be considered based on the chosen machine learning model
+Outliers in AQI case is valid in this dataset since the datast used environemnetal factors, outliers will be retained during Part 1. Their impact on model performance will be evaluated during Part 2, and if required, suitable techniques such as capping or robust preprocessing methods will be considered based on the chosen machine learning model
 
 
 Task 7 — Data Visualization
@@ -125,9 +121,9 @@ AQI Distribution by Season (Box Plot)
 #Histogram Interpretation
 
 
-The histogram of the AQI column shows a positively (right) skewed distribution. Most AQI values are concentrated in the lower range (approximately between 50 and 200), while a few rows have very high AQI values which is skewed right
+The histogram of the AQI column shows a positively (right) skewed distribution. Most AQI values are concentrated in the lower range (approximately between 50 and 200), a few rows have very high AQI values which is skewed right
 the median is a more representative measure of central tendency than the mean for handling missing values.
-The histogram also confirms the skewness value calculated earlier (approximately +4.05), indicating a strong positive skew.
+The histogram also confirms the skewness value calculated earlier 4.05 ndicating a strong positive skew.
 
 #Scatter Plot Interpretation
 
@@ -139,7 +135,7 @@ The box plot shows noticeable differences in AQI across seasons. Winter and Post
 
 Task 8 — Correlation Analysis
 
-The strong correlation between avg_temp and min_temp is expected because both measure the temperature of the same day. They change together mainly due to seasonal weather conditions, not because one temperature causes the other.
+ strong correlation between avg_temp and min_temp is expected  change together mainly due to seasonal weather conditions
 Apart from the temperature columns, most features have weak correlations with AQI. For example, wind_speed has a weak negative correlation (-0.27) with AQI, suggesting that higher wind speeds may help disperse pollutants and reduce AQI. This indicates that AQI is affected by multiple climatic and environmental factors rather than a single variable.
 
 Task 9(a) — Imputation Strategy Comparison
@@ -152,10 +148,7 @@ Median was selected because:
 AQI is positively skewed and the mean is influenced by extremely high values.
 Minimum Temperature is negatively skewed and the mean is influenced by extremely low values.
 
-Median therefore provides a more representative estimate for skewed data.After applying the chosen imputation strategy, all remaining missing values in the selected columns were handled successfully.
-
-
-But for AQI field since it will be my Target for my model null values are removed as in Part 2 specifically mentioned Supervised Learning , so actual Tragt value is required to train the data any imputation might affect the quality of model
+Median therefore provides a more representative estimate for skewed data.After applying the chosen imputation strategy, all remaining missing values in the selected columns were handled successfullyut for AQI field since it will be my Target for my model null values are removed as in Part 2 specifically mentioned Supervised Learning , so actual Tragt value is required to train the data any imputation might affect the quality of model
 
 Task 9(b) — Spearman Correlation
 
