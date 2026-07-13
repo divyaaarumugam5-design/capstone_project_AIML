@@ -1,5 +1,5 @@
 Note: Synatx for few are referred from offical documentation https://openrouter.ai/docs/api/reference/overview
-## Environment Variables
+Environment Variables
 
 Create a .env file in the project root containing:
 
