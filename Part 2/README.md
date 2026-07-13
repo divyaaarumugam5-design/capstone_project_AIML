@@ -5,7 +5,7 @@ https://pandas.pydata.org/docs/
 Task 1 – Feature Matrix and Target Definition
 
 Loaded the cleaned dataset (cleaned_data.csv) from Part 1.
-Feature Matrix (X): All columns except Date, AQI, and AQI_Bucket.
+
 Features (X):
 City,season,avg_temp,max_temp,min_temp,wind_speed,air_pressure,ONI
 Lables(y)
@@ -17,17 +17,14 @@ AQI_Bucket was converted into a binary classification target (y_clf) using the f
 
 Task 2 – Encoding Categorical Features
 
-Created an ENSO_Category feature from the ONI values using the NOAA Oceanic Niño Index (ONI) classification.
-Applied One-Hot Encoding to City, season, and ENSO_Category as these categorical features have no natural order.
-Used drop_first=True to avoid multicollinearity.
-One-Hot Encoding prevents the model from assuming a false ordinal relationship between categorical values like for example 
+ ENSO_Category feature from the ONI values using the NOAA Oceanic Niño Index (ONI) classificat done One-Hot Encoding to City, season, and ENSO_Category as these categorical features have no natural order.One-Hot Encoding prevents the model from assuming a false ordinal relationship between categorical values like for example 
 Label encoding turns categories into numbers like:
-Winter=0, Summer=1, Monsoon=2, Autumn=3 and then model sees these as ordered it assumes Monsoon (2) is "greater than" Summer (1), and twice as far from Winter (0) as Summer is. But seasons have no real rank or distance like that
+ ordered it assumesone is  "greater than other and twice as far from Winter (0) as Summer is. But seasons have no real rank or distance like that
 One-hot encoding fixes this by giving each category its own 0/1 column.
 
 Task 3 – Train-Test Split and Feature Scaling
 
-Split the dataset into 80% training and 20% testing using train_test_split(test_size=0.2, random_state=42).
+Splited the dataset into 80% training and 20% testing using train_test_split(test_size=0.2, random_state=42).
 Applied StandardScaler by fitting it only on the training data and then transforming both the training and test sets.
 The scaler was not fitted on the entire dataset to prevent data leakage. Fitting on the full dataset would allow the training process to use the test set's mean and standard deviation, introducing information from unseen data and producing overly optimistic evaluation results.
 Since we use 2 model as a ML practice purpose used 2 scalers for each separately.
@@ -43,6 +40,7 @@ positive coefficient =  increasing the feature increases the predicted AQI.
 negative coefficient = increasing the feature decreases the predicted AQI.
 Feature City_Amritsar Coefficient -101.52 Feature City_Bengaluru Coefficient -101.04 FeatureCity_Hyderabad Coefficient-100.15
 Trained a Ridge Regression model using alpha = 1.0 and evaluated it using the same metrics.
+
 Ridge Regression produced almost the same performance as Linear Regression, indicating that regularization had minimal impact on this dataset.
 https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.from_records.html#pandas.DataFrame.from_records
 Ridge applies L2 regularization, which reduces the magnitude of coefficients to improve model stability and reduce overfitting. The alpha parameter controls the strength of regularization; higher values apply stronger coefficient shrinkage
@@ -80,18 +78,16 @@ Recall = TP / (TP + FN)
 
 Recall measures how many actual High-Risk days were correctly identified. The model achieved a recall of 0.88, meaning it successfully detected 88% of all High-Risk AQI days.
 
-For this air quality prediction task, Recall is more important than Precision because missing a High-Risk AQI day (False Negative) is more harmful than issuing a false warning. A missed High-Risk day may lead people to believe the air quality is safe when it is actually unhealthy.
+for my task, Recall is more important than Precision because missing a High-Risk AQI day (False Negative) is more harmful than issuing a false warning. A missed High-Risk day may lead people to believe the air quality is safe when it is actually unhealthy.
 
 The model achieved an AUC of 0.9504, indicating an excellent ability to distinguish between Low-Risk and High-Risk AQI categories. An AUC value closer to 1.0 indicates better class separation, while 0.5 represents random guessing.
 
 Task 5(b) – Decision Threshold Sensitivity
 
-The Logistic Regression model predicts probabilities for the positive class (High Risk). By default, predictions are classified using a threshold of 0.50. To study the effect of changing the decision boundary, thresholds from 0.30 to 0.70 were evaluated, and Precision, Recall, and F1-score were calculated for each threshold.
+The Logistic Regression model predicts probabilities for the positive class (High Risk). By default, predictions are classified using a threshold of 0.50. To study the effect of changing the decision boundary, thresholds from 0.30 to 0.70 were evaluated, 
 threshold with the highest F1-score was selected as the best balance between Precision and Recall for this dataset.
 
-For this air quality prediction task, Recall is more important because failing to identify a High-Risk AQI day (False Negative) may prevent people from taking necessary health precautions.
-
-To improve Recall, the decision threshold can be lowered, allowing the model to identify more High-Risk days. However, this also increases the number of False Positives, resulting in more unnecessary High-Risk warnings.
+To improve Recall, the decision threshold can be lowered, allowing the model to identify more High-Risk days this also increases the number of False Positives, resulting in more unnecessary High-Risk warnings.
 
 Task 6-Regularization Experiment on Logistic Regression
 
