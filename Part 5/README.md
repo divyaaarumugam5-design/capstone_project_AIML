@@ -1,7 +1,7 @@
 # Part 5: Deployment (AQI Risk Advisor)
 
 This part takes the tuned model from Part 3 and the LLM advisory from Part 4 and serves them as a Streamlit web app.
- http://192.168.29.105:8501
+[ http://192.168.29.105:8501](https://capstoneprojectaiml-aqi-feature.streamlit.app/)
 
 Steps to run app:
 
