@@ -1,8 +1,0 @@
-streamlit
-scikit-learn>=1.9,<1.10
-pandas
-numpy
-joblib
-requests
-jsonschema
-matplotlib
