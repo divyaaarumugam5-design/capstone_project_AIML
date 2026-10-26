@@ -1,0 +1,10 @@
+
+streamlit>=1.36
+scikit-learn==1.5.2
+pandas
+numpy
+joblib
+requests
+jsonschema
+python-dotenv
+matplotlib
