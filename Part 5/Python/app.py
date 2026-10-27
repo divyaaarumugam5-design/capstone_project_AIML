@@ -14,16 +14,16 @@ from jsonschema import ValidationError, validate
 
 from aqi_features import enso_category, make_features
 
-try:  # local runs: pick up OPENROUTER_API_KEY from the repo-root .env
+try: 
     from dotenv import find_dotenv, load_dotenv
     load_dotenv(find_dotenv(usecwd=True))
 except ImportError:
     pass
 
-PART_DIR = Path(__file__).resolve().parent.parent          # .../Project/Part 5
+PART_DIR = Path(__file__).resolve().parent.parent         
 MODELS_DIR = PART_DIR / "models"
 
-LLM_MODEL = "openai/gpt-4.1-mini"
+LLM_MODEL = "meta-llama/llama-3.3-70b-instruct:free"
 LLM_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 ADVISORY_SCHEMA = {
@@ -60,9 +60,9 @@ def load_artifacts():
 
 def get_api_key():
     try:
-        return st.secrets["OPENROUTER_API_KEY"]   # Streamlit Cloud
+        return st.secrets["OPENROUTER_API_KEY"]   
     except Exception:
-        return os.getenv("OPENROUTER_API_KEY")    # local .env
+        return os.getenv("OPENROUTER_API_KEY")    
 
 
 def has_pii(text: str) -> bool:

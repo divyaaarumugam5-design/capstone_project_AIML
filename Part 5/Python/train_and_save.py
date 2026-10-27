@@ -22,7 +22,7 @@ from sklearn.preprocessing import StandardScaler
 
 from aqi_features import RISK_MAPPING, make_features
 
-PART_DIR = Path(__file__).resolve().parent.parent          # .../Project/Part 5
+PART_DIR = Path(__file__).resolve().parent.parent          
 DATA_PATH = PART_DIR / "Data" / "cleaned_data.csv"
 MODELS_DIR = PART_DIR / "models"
 OUTPUTS_DIR = PART_DIR / "outputs"
@@ -36,14 +36,13 @@ X = make_features(df)
 y_clf = df["AQI_Bucket"].map(RISK_MAPPING)
 y_reg = df["AQI"]
 
-# Same split as Part 2 / Part 3 so the numbers are comparable
+
 X_train, X_test, y_train_clf, y_test_clf = train_test_split(
     X, y_clf, test_size=0.2, random_state=42)
 _, _, y_train_reg, y_test_reg = train_test_split(
     X, y_reg, test_size=0.2, random_state=42)
 
-# Best params from Part 3 GridSearchCV (CV ROC-AUC 0.9587).
-# Imputer lives INSIDE the pipeline, so it is fitted on training data only.
+
 risk_model = make_pipeline(
     SimpleImputer(strategy="median"),
     StandardScaler(),

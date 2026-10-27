@@ -1,13 +1,9 @@
 """
-Part 5 - Task 3: Held-out LLM evaluation (fills the "[X]/20 schema-valid" resume number).
 
 Samples 20 rows from cleaned_data.csv, predicts risk with the saved model, asks the LLM
-for an advisory, and checks each response against ADVISORY_SCHEMA. None of these rows
-are the few-shot examples used in Part 4.
+for an advisory, and checks each response against ADVISORY_SCHEMA.
 
-Run:  python "Project/Part 5/Python/llm_eval.py"
-Needs OPENROUTER_API_KEY in the repo-root .env
-Writes: Part 5/outputs/llm_eval_results.csv
+
 """
 import json
 import os
@@ -67,26 +63,34 @@ def main():
                    "risk_level": "High" if prob >= 0.5 else "Low",
                    "probability": round(prob, 3), "avg_temp": r["avg_temp"],
                    "wind_speed": r["wind_speed"], "air_pressure": r["air_pressure"]}
-        valid, error = False, ""
+        valid, error, api_ok = False, "", False
         try:
-            resp = requests.post(
-                LLM_URL, timeout=30,
-                headers={"Authorization": f"Bearer {api_key}"},
-                json={"model": LLM_MODEL, "temperature": 0, "max_tokens": 300,
-                      "messages": [{"role": "system", "content": SYSTEM_PROMPT},
-                                   {"role": "user", "content": json.dumps(payload)}]})
+            for attempt in range(3):                     
+                resp = requests.post(
+                    LLM_URL, timeout=60,
+                    headers={"Authorization": f"Bearer {api_key}"},
+                    json={"model": LLM_MODEL, "temperature": 0, "max_tokens": 300,
+                          "messages": [{"role": "system", "content": SYSTEM_PROMPT},
+                                       {"role": "user", "content": json.dumps(payload)}]})
+                if resp.status_code == 429:
+                    time.sleep(20)
+                    continue
+                break
+            if resp.status_code != 200:
+                raise requests.RequestException(f"HTTP {resp.status_code}: {resp.text[:80]}")
+            api_ok = True
             text = resp.json()["choices"][0]["message"]["content"].strip()
             text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
             data = json.loads(text)
             validate(instance=data, schema=SCHEMA)
-            valid = data["risk_level"] == payload["risk_level"]   # also must agree with model
+            valid = data["risk_level"] == payload["risk_level"]
             if not valid:
                 error = "risk_level disagrees with model"
         except (json.JSONDecodeError, ValidationError, KeyError, requests.RequestException) as e:
             error = f"{e.__class__.__name__}: {str(e)[:80]}"
-        rows.append({**payload, "schema_valid": valid, "error": error})
+        rows.append({**payload, "api_ok": api_ok, "schema_valid": valid, "error": error})
         print(f"{i + 1:2d}/{N_RECORDS} {r['City']:<15} valid={valid} {error}")
-        time.sleep(0.5)
+        time.sleep(4)                                      # stay under 20 requests/minute
 
     out = pd.DataFrame(rows)
     out.to_csv(PART_DIR / "outputs" / "llm_eval_results.csv", index=False)
