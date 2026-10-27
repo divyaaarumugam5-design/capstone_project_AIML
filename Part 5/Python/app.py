@@ -23,7 +23,7 @@ except ImportError:
 PART_DIR = Path(__file__).resolve().parent.parent         
 MODELS_DIR = PART_DIR / "models"
 
-LLM_MODEL = "meta-llama/llama-3.3-70b-instruct:free"
+LLM_MODEL = "openrouter/free"
 LLM_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 ADVISORY_SCHEMA = {

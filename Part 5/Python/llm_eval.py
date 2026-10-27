@@ -23,7 +23,7 @@ PART_DIR = Path(__file__).resolve().parent.parent
 MODELS_DIR = PART_DIR / "models"
 N_RECORDS = 20
 
-LLM_MODEL = "meta-llama/llama-3.3-70b-instruct:free"
+LLM_MODEL = "openrouter/free"
 LLM_URL = "https://openrouter.ai/api/v1/chat/completions"
 SCHEMA = {
     "type": "object",
@@ -69,7 +69,7 @@ def main():
                 resp = requests.post(
                     LLM_URL, timeout=60,
                     headers={"Authorization": f"Bearer {api_key}"},
-                    json={"model": LLM_MODEL, "temperature": 0, "max_tokens": 300,
+                    json={"model": LLM_MODEL, "temperature": 0, "max_tokens": 1500,
                           "messages": [{"role": "system", "content": SYSTEM_PROMPT},
                                        {"role": "user", "content": json.dumps(payload)}]})
                 if resp.status_code == 429:
@@ -79,7 +79,10 @@ def main():
             if resp.status_code != 200:
                 raise requests.RequestException(f"HTTP {resp.status_code}: {resp.text[:80]}")
             api_ok = True
-            text = resp.json()["choices"][0]["message"]["content"].strip()
+            content = resp.json()["choices"][0]["message"].get("content")
+            if not content:
+                raise KeyError("model returned empty content")
+            text = content.strip()
             text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
             data = json.loads(text)
             validate(instance=data, schema=SCHEMA)
@@ -94,7 +97,7 @@ def main():
 
     out = pd.DataFrame(rows)
     out.to_csv(PART_DIR / "outputs" / "llm_eval_results.csv", index=False)
-    print(f"\nSchema-valid: {out['schema_valid'].sum()}/{N_RECORDS}  -> put this in the resume")
+    print(f"\nSchema-valid: {out['schema_valid'].sum()}/{N_RECORDS}  ")
 
 
 if __name__ == "__main__":

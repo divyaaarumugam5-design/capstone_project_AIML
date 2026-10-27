@@ -1,0 +1,21 @@
+city,season,risk_level,probability,avg_temp,wind_speed,air_pressure,api_ok,schema_valid,error
+Mumbai,Winter,Low,0.12,31.0666666666667,7.9,1010.16666666667,True,True,
+Thiruvananthapuram,Summer,Low,0.0,29.65,5.9,1009.85,True,False,JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Mumbai,Winter,Low,0.01,28.6666666666667,8.23333333333333,1010.76666666667,True,True,
+Delhi,Winter,High,0.895,27.25,3.9,1012.0,True,True,
+Kolkata,Winter,Low,0.095,27.3,5.8,1010.2,True,True,
+Mumbai,Winter,Low,0.015,27.5666666666667,6.86666666666667,1013.23333333333,True,True,
+Mumbai,Summer,Low,0.0,29.8333333333333,10.1,1010.1,True,True,
+Jaipur,Post-monsoon,Low,0.025,30.3,9.0,1009.9,True,True,
+Lucknow,Monsoon,Low,0.02,28.95,18.5,1009.9,True,True,
+Bengaluru,Winter,Low,0.005,26.3,9.8,1013.36666666667,True,True,
+Mumbai,Winter,Low,0.0,29.4333333333333,6.96666666666667,1009.36666666667,True,False,JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Kolkata,Monsoon,Low,0.005,29.25,12.2,998.1,True,False,JSONDecodeError: Unterminated string starting at: line 1 column 64 (char 63)
+Coimbatore,Post-monsoon,Low,0.015,26.75,15.4,1011.0,True,True,
+Bhopal,Winter,Low,0.035,16.5,8.0,1009.9,True,True,
+Lucknow,Monsoon,Low,0.045,30.15,2.0,998.8,True,True,
+Bhopal,Winter,Low,0.14,13.0,8.0,1009.9,True,True,
+Hyderabad,Winter,Low,0.0,24.55,9.3,1018.7,True,True,
+Delhi,Winter,High,1.0,14.15,5.9,1009.9,True,True,
+Mumbai,Post-monsoon,Low,0.025,29.8333333333333,7.56666666666667,1011.96666666667,True,True,
+Jaipur,Summer,Low,0.045,33.1,9.9,1000.9,True,True,
